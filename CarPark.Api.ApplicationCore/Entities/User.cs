@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace CarPark.Api.Infrastructure.EF_Core.Entities
+namespace CarPark.Api.ApplicationCore.Entities
 {
     public class User : IdentityUser
     {

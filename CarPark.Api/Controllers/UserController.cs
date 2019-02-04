@@ -19,9 +19,7 @@ namespace CarPark.Api.Controllers
 
         public UserController(IOptions<SettingsModel> app, CarParkDbContext context)
         {
-            appSettings = app;
-            _context = context;
-            _applicationservice = applicationservice;
+          
                      
 
         }
