@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarPark.Api", "CarPark.Api\CarPark.Api.csproj", "{05B5CE42-37D0-4219-A0FA-8F2E2A5C3C85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarPark.Api", "CarPark.Api\CarPark.Api.csproj", "{05B5CE42-37D0-4219-A0FA-8F2E2A5C3C85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarPark.Test", "CarPark.Test\CarPark.Test.csproj", "{94A3839F-3CA2-45A6-8027-2589651DF239}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarPark.Api.Infrastructure", "CarPark.Api.Infrastructure\CarPark.Api.Infrastructure.csproj", "{A6E7873C-61E1-469A-9EE1-41A00D30DB52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarPark.Api.ApplicationCore", "CarPark.Api.ApplicationCore\CarPark.Api.ApplicationCore.csproj", "{1FF5C264-3CA5-4FC0-8F1F-033CD1FAF6C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{05B5CE42-37D0-4219-A0FA-8F2E2A5C3C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05B5CE42-37D0-4219-A0FA-8F2E2A5C3C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05B5CE42-37D0-4219-A0FA-8F2E2A5C3C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A3839F-3CA2-45A6-8027-2589651DF239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A3839F-3CA2-45A6-8027-2589651DF239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A3839F-3CA2-45A6-8027-2589651DF239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A3839F-3CA2-45A6-8027-2589651DF239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6E7873C-61E1-469A-9EE1-41A00D30DB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6E7873C-61E1-469A-9EE1-41A00D30DB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6E7873C-61E1-469A-9EE1-41A00D30DB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6E7873C-61E1-469A-9EE1-41A00D30DB52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF5C264-3CA5-4FC0-8F1F-033CD1FAF6C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF5C264-3CA5-4FC0-8F1F-033CD1FAF6C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF5C264-3CA5-4FC0-8F1F-033CD1FAF6C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF5C264-3CA5-4FC0-8F1F-033CD1FAF6C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

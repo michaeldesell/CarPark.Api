@@ -1,0 +1,7 @@
+{
+  "ConnectionStrings": {
+    "DBConnectionString": "server=(localdb)\\MSSQLLocalDB;Database=CarParkDb;Integrated Security=true;MultipleActiveResultSets=true"
+
+  }
+
+}
