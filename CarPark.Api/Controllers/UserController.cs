@@ -20,7 +20,8 @@ namespace CarPark.Api.Controllers
         public UserController(IOptions<SettingsModel> app, CarParkDbContext context)
         {
           
-                     
+
+                                 
 
         }
     }

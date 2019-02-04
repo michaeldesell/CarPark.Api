@@ -10,5 +10,29 @@ namespace CarPark.Test
         {
 
         }
+
+        [Fact]
+        public void LoginSuccess()
+        {
+
+        }
+        [Fact]
+        public void LoginFailed()
+        {
+
+        }
+
+        [Fact]
+        public void LogoutSuccess()
+        {
+
+        }
+        [Fact]
+        public void LogoutFailed()
+        {
+
+        }
+
+
     }
 }
