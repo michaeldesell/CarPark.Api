@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using CarPark.Api.Infrastructure.EF_Core.DbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using CarPark.Api.ApplicationCore.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Design;
+using CarPark.Api.Infrastructure.Service;
 
 namespace CarPark.Api
 {
@@ -31,11 +24,11 @@ namespace CarPark.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+         
             DbContextOptionsBuilder<CarParkDbContext> options = new DbContextOptionsBuilder<CarParkDbContext>();
 
             options.UseSqlServer<CarParkDbContext>(Configuration.GetConnectionString("DBConnectionString"));
-            services.AddDbContext<CarParkDbContext>(options));
+            services.AddDbContext<CarParkDbContext>();
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
@@ -43,6 +36,9 @@ namespace CarPark.Api
                 .AddEntityFrameworkStores<CarParkDbContext>()
                 .AddDefaultTokenProviders();
 
+
+            services.AddMvc();
+            services.AddScoped<iapplicationservice, applicationservice>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

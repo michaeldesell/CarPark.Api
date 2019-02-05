@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using CarPark.Api.Infrastructure.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarPark.Api.Controllers
@@ -10,6 +9,39 @@ namespace CarPark.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
+
+        private iapplicationservice _applicationservice;
+
+        public ValuesController(iapplicationservice applicationservice)
+        {
+           
+            _applicationservice = applicationservice;
+
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Authenticate")]
+        public ActionResult Authenticate([FromBody]applicationlogin appparams)
+        {
+
+            //string username="hej";
+            //string password="hej";
+            //[FromBody]applicationlogin appParam)
+
+            var appslogins = _applicationservice.Authenticate(appparams.AppName, appparams.password);
+            if (appslogins == null)
+                return BadRequest(new { message = "you shall not pass!! wrong pass or user!" });
+
+            return Ok(new
+            {
+                Id = appslogins.id,
+                AppName = appslogins.AppName,
+                Token = appslogins.Token
+            });
+            
+           }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
