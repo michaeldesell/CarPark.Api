@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Text;
+using System;
 
 namespace CarPark.Test
 {
@@ -34,24 +35,68 @@ namespace CarPark.Test
         public void AuthenticateAppSuccess()
         {
             string path = "/Authenticate";
-            var values = new Dictionary<string, string>
+            HttpResponseMessage result=new HttpResponseMessage();
+            try
             {
-                { "username", "hello" },
-                { "password", "world" }
-            };
+                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkApi", password = "manycars" });
+                var response = _client.PostAsync(apiurl + path, content);
+                var responseString = response.Result;
+                result = responseString;
+            }
+            catch(Exception e)
+            {
+                throw new Exception("It crashed!");
+            }
+            finally
+            {
 
+                if(result.StatusCode==System.Net.HttpStatusCode.OK)
+                {
+                  
+                }
+                else if(result.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    throw new Exception("Bad request code 400");
+                }
+                
+            }
             //var content = new FormUrlEncodedContent(values);
-            HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkApi", password = "manycars" });
+          
  
-             var response = _client.PostAsync(apiurl+path, content);
+           
 
-            var responseString = response.Result;
+       
         }
 
         [Fact]
         public void AuthenticateAppFail()
         {
+            string path = "/Authenticate";
+            HttpResponseMessage result = new HttpResponseMessage();
+            try
+            {
+                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkApi", password = "wrongpass" });
+                var response = _client.PostAsync(apiurl + path, content);
+                var responseString = response.Result;
+                result = responseString;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("It crashed!");
+            }
+            finally
+            {
 
+                if (result.StatusCode== System.Net.HttpStatusCode.OK)
+                {
+                    throw new Exception("StatusCode=200. this test was not supposed to pass!");
+                }
+                else
+                {
+
+                }
+
+            }
         }
 
         [Fact]

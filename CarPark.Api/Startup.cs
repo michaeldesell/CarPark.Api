@@ -28,7 +28,13 @@ namespace CarPark.Api
             DbContextOptionsBuilder<CarParkDbContext> options = new DbContextOptionsBuilder<CarParkDbContext>();
 
             options.UseSqlServer<CarParkDbContext>(Configuration.GetConnectionString("DBConnectionString"));
-            services.AddDbContext<CarParkDbContext>();
+            services.AddDbContext<CarParkDbContext>(cfg =>
+            {
+                cfg.UseSqlServer(
+                    Configuration.GetConnectionString("DBConnectionString")
+                    );
+            }
+           );
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;

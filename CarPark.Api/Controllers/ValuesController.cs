@@ -39,6 +39,7 @@ namespace CarPark.Api.Controllers
                 Id = appslogins.id,
                 AppName = appslogins.AppName,
                 Token = appslogins.Token
+               
             });
             
            }
