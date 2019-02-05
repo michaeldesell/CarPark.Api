@@ -19,4 +19,17 @@ namespace CarPark.Api.Infrastructure.EF_Core.DbContext
 
     }
 
+  
+
+    public class ApplicationContextDbFactory : IDesignTimeDbContextFactory<CarParkDbContext>
+    {
+        CarParkDbContext IDesignTimeDbContextFactory<CarParkDbContext>.CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<CarParkDbContext>();
+            optionsBuilder.UseSqlServer<CarParkDbContext>("server=(localdb)\\MSSQLLocalDB;Database=CarParkDb;Integrated Security=true;MultipleActiveResultSets=true");
+
+            return new CarParkDbContext(optionsBuilder.Options);
+        }
+    }
+
 }
