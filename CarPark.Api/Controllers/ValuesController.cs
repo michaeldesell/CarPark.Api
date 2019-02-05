@@ -26,13 +26,9 @@ namespace CarPark.Api.Controllers
         public ActionResult Authenticate([FromBody]applicationlogin appparams)
         {
 
-            //string username="hej";
-            //string password="hej";
-            //[FromBody]applicationlogin appParam)
-
             var appslogins = _applicationservice.Authenticate(appparams.AppName, appparams.password);
             if (appslogins == null)
-                return BadRequest(new { message = "you shall not pass!! wrong pass or user!" });
+                return NoContent();
 
             return Ok(new
             {

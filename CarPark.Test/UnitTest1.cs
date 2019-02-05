@@ -45,20 +45,24 @@ namespace CarPark.Test
             }
             catch(Exception e)
             {
-                throw new Exception("It crashed!");
+                throw new Exception(e.Message.ToString());
             }
             finally
             {
 
                 if(result.StatusCode==System.Net.HttpStatusCode.OK)
                 {
-                  
+                  //this codeblock will run when succesfull test. A succesful login
                 }
-                else if(result.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                else if(result.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    throw new Exception("Bad request code 400");
+                    throw new Exception("No content code 204");
                 }
-                
+                else if (result.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    throw new Exception("Bad request code 500");
+                }
+
             }
             //var content = new FormUrlEncodedContent(values);
           
@@ -82,7 +86,7 @@ namespace CarPark.Test
             }
             catch (Exception e)
             {
-                throw new Exception("It crashed!");
+                throw new Exception(e.Message.ToString());
             }
             finally
             {
@@ -91,9 +95,13 @@ namespace CarPark.Test
                 {
                     throw new Exception("StatusCode=200. this test was not supposed to pass!");
                 }
-                else
+                else if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-
+                    //this codeblock will run when succesfull test. A failed login which turned sent back an empty content
+                }
+                else if (result.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                {
+                    throw new Exception("Bad request code 500");
                 }
 
             }
