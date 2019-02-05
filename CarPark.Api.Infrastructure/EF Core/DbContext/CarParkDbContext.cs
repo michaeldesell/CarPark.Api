@@ -21,7 +21,7 @@ namespace CarPark.Api.Infrastructure.EF_Core.DbContext
 
   
 
-    public class ApplicationContextDbFactory : IDesignTimeDbContextFactory<CarParkDbContext>
+    public class CarParkDbContextFactory : IDesignTimeDbContextFactory<CarParkDbContext>
     {
         CarParkDbContext IDesignTimeDbContextFactory<CarParkDbContext>.CreateDbContext(string[] args)
         {
