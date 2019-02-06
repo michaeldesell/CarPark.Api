@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using CarPark.Api.ApplicationCore.Entities;
 using Microsoft.AspNetCore.Identity;
 using CarPark.Api.Infrastructure.Service;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
 namespace CarPark.Api
 {
@@ -43,6 +46,34 @@ namespace CarPark.Api
                 .AddDefaultTokenProviders();
 
 
+            services.AddCors();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<appsettings>(appSettingsSection);
+
+            var appsetting = appSettingsSection.Get<appsettings>();
+            var key = Encoding.ASCII.GetBytes(appsetting.secret);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            ///
+    
             services.AddMvc();
             services.AddScoped<iapplicationservice, applicationservice>();
         }
