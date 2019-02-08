@@ -7,7 +7,7 @@ using CarPark.Api.Infrastructure.EF_Core.DbContext;
 using Microsoft.EntityFrameworkCore;
 using CarPark.Api.ApplicationCore.Entities;
 using Microsoft.AspNetCore.Identity;
-using CarPark.Api.Infrastructure.Service;
+using CarPark.Api.Infrastructure.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;

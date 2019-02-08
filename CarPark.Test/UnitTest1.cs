@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Text;
 using System;
-using CarPark.Api.Infrastructure.Service;
+using CarPark.Api.Infrastructure.Services;
 
 namespace CarPark.Test
 {
@@ -39,7 +39,7 @@ namespace CarPark.Test
             HttpResponseMessage result=new HttpResponseMessage();
             try
             {
-                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkWeb", password = "banan" });
+                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Services.applicationlogin>(new Api.Infrastructure.Services.applicationlogin() { AppName = "CarParkWeb", password = "banan" });
                 var response = _client.PostAsync(apiurl + path, content);
                 var responseString = response.Result;
                 var data = await responseString.Content.ReadAsStringAsync();
@@ -88,7 +88,7 @@ namespace CarPark.Test
             HttpResponseMessage result = new HttpResponseMessage();
             try
             {
-                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkApi", password = "wrongpass" });
+                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Services.applicationlogin>(new Api.Infrastructure.Services.applicationlogin() { AppName = "CarParkApi", password = "wrongpass" });
                 var response = _client.PostAsync(apiurl + path, content);
                 var responseString = response.Result;
                 result = responseString;

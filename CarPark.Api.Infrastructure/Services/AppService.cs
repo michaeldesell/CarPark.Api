@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 
-namespace CarPark.Api.Infrastructure.Service
+namespace CarPark.Api.Infrastructure.Services
 {
 
     public interface iapplicationservice
@@ -45,9 +45,7 @@ namespace CarPark.Api.Infrastructure.Service
 
         public applicationlogin Authenticate(string username, string password)
         {
-
-
-            //var apps = applogins.FirstOrDefault(x => x.username == username && x.password == password);
+          
             var apps = _context.Users.FirstOrDefault(x => x.UserName == username && x.PasswordHash == password);
 
             if (apps == null)
