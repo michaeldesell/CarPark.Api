@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CarPark.Api.ApplicationCore\CarPark.Api.ApplicationCore.csproj" />
+    <ProjectReference Include="..\CarPark.Api.Infrastructure\CarPark.Api.Infrastructure.csproj" />
     <ProjectReference Include="..\CarPark.Api\CarPark.Api.csproj" />
   </ItemGroup>
 

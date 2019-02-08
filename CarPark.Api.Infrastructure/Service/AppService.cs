@@ -6,6 +6,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using CarPark.Api.Infrastructure.EF_Core.DbContext;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace CarPark.Api.Infrastructure.Service
 {
@@ -44,7 +48,7 @@ namespace CarPark.Api.Infrastructure.Service
 
 
             //var apps = applogins.FirstOrDefault(x => x.username == username && x.password == password);
-            var apps = _context.Users.FirstOrDefault(x => x.Email == username && x.PasswordHash == password);
+            var apps = _context.Users.FirstOrDefault(x => x.UserName == username && x.PasswordHash == password);
 
             if (apps == null)
                 return null;
@@ -52,16 +56,12 @@ namespace CarPark.Api.Infrastructure.Service
             var key = Encoding.ASCII.GetBytes(_appsettings.secret);
             var tokendescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name,apps.Id.ToString())
-                     //new Claim(ClaimTypes.Role,apps.id.ToString())
-                }),
+                Subject = new ClaimsIdentity(GetLoginClaims(apps)),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 
             };
-
+           
             var token = Tokenhandler.CreateToken(tokendescriptor);
             applicationlogin all = new applicationlogin()
             {
@@ -73,6 +73,28 @@ namespace CarPark.Api.Infrastructure.Service
             //apps.password = null;
 
             return all;
+        }
+
+        public List<Claim> GetLoginClaims(ApplicationCore.Entities.User app)
+        {
+           
+
+            IdentityOptions _options = new IdentityOptions();
+            var claims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, app.UserName),
+            new Claim(_options.ClaimsIdentity.UserIdClaimType, app.Id.ToString()),
+            new Claim(_options.ClaimsIdentity.UserNameClaimType, app.UserName)
+        };
+            var userClaims = _context.UserClaims.Where(x => x.UserId == app.Id).Select(x=>new Claim(x.ClaimType,x.ClaimValue)).ToList();
+            var roleslink = _context.UserRoles.Where(x => x.UserId == app.Id).Select(x =>x.RoleId).ToList();
+            var userroles = _context.Roles.Where(x => roleslink.Contains(x.Id));
+            var roleClaims = _context.RoleClaims.Where(x => roleslink.Contains(x.RoleId)).ToList();
+            claims.AddRange(userClaims);
+            claims.AddRange(userroles.Select(x => new Claim(ClaimTypes.Role,x.Name)));
+            claims.AddRange(roleClaims.Select(x => new Claim(x.ClaimType, x.ClaimValue)));
+            
+            return claims;
         }
         //public IEnumerable<applicationlogin> GetAll()
         //{

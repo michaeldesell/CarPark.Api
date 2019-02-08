@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Text;
 using System;
+using CarPark.Api.Infrastructure.Service;
 
 namespace CarPark.Test
 {
@@ -32,16 +33,24 @@ namespace CarPark.Test
         }
 
         [Fact]
-        public void AuthenticateAppSuccess()
+        public async void AuthenticateAppSuccess()
         {
             string path = "/Authenticate";
             HttpResponseMessage result=new HttpResponseMessage();
             try
             {
-                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkApi", password = "manycars" });
+                HttpContent content = CreateHttpContent<CarPark.Api.Infrastructure.Service.applicationlogin>(new Api.Infrastructure.Service.applicationlogin() { AppName = "CarParkWeb", password = "banan" });
                 var response = _client.PostAsync(apiurl + path, content);
                 var responseString = response.Result;
-                result = responseString;
+                var data = await responseString.Content.ReadAsStringAsync();
+                applicationlogin ap= JsonConvert.DeserializeObject<applicationlogin>(data);
+
+
+                path = "/TestAuthorization";
+                _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ap.Token);
+                var response2 = _client.GetAsync(apiurl + path);
+                var responseString2 = response2.Result;
+                result = responseString2;
             }
             catch(Exception e)
             {
@@ -65,11 +74,11 @@ namespace CarPark.Test
 
             }
             //var content = new FormUrlEncodedContent(values);
-          
- 
+
+
            
 
-       
+
         }
 
         [Fact]

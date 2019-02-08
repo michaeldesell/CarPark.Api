@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarPark.Api.Controllers
 {
+
+    [Authorize]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -23,22 +26,29 @@ namespace CarPark.Api.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("Authenticate")]
-        public ActionResult Authenticate([FromBody]applicationlogin appparams)
+        public ActionResult<applicationlogin> Authenticate([FromBody]applicationlogin appparams)
         {
 
             var appslogins = _applicationservice.Authenticate(appparams.AppName, appparams.password);
             if (appslogins == null)
                 return NoContent();
 
-            return Ok(new
-            {
-                Id = appslogins.id,
-                AppName = appslogins.AppName,
-                Token = appslogins.Token
-               
-            });
+            return Ok(
+           appslogins);
             
            }
+
+        [Authorize(Roles = "CarParkWeb")]
+        [HttpGet]
+        [Route("TestAuthorization")]
+        public ActionResult TestAuthorization()
+        {
+
+            
+
+            return Ok();
+
+        }
         // GET api/values
         //[HttpGet]
         //public ActionResult<IEnumerable<string>> Get()

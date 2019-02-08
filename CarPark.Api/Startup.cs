@@ -11,6 +11,7 @@ using CarPark.Api.Infrastructure.Service;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using System.Security.Claims;
 
 namespace CarPark.Api
 {
@@ -73,7 +74,16 @@ namespace CarPark.Api
                 };
             });
             ///
-    
+
+            //services.AddAuthorization(options2 =>
+            //{
+                
+            //    foreach (var prop in typeof(ClaimPermission).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy))
+            //    {
+            //        options.AddPolicy(prop.GetValue(null).ToString(), policy => policy.RequireClaim(ClaimType.Permission, prop.GetValue(null).ToString()));
+            //    }
+            //});
+
             services.AddMvc();
             services.AddScoped<iapplicationservice, applicationservice>();
         }
