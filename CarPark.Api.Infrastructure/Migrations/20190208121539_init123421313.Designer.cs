@@ -4,14 +4,16 @@ using CarPark.Api.Infrastructure.EF_Core.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarPark.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(CarParkDbContext))]
-    partial class CarParkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190208121539_init123421313")]
+    partial class init123421313
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,11 +74,6 @@ namespace CarPark.Api.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new { Id = "1", AccessFailedCount = 0, ConcurrencyStamp = "2d0427df-9f97-4974-a85e-ac8bbd27f209", Email = "a@b.se", EmailConfirmed = true, LockoutEnabled = false, PasswordHash = "Banan", PhoneNumberConfirmed = true, TwoFactorEnabled = false, UserName = "CarParkWeb" },
-                        new { Id = "2", AccessFailedCount = 0, ConcurrencyStamp = "9613857a-0d2b-4c83-8d6c-b1885a874c43", Email = "atarda@b.se", EmailConfirmed = true, LockoutEnabled = false, PasswordHash = "Banan", PhoneNumberConfirmed = true, TwoFactorEnabled = false, UserName = "Testuser" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -101,11 +98,6 @@ namespace CarPark.Api.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new { Id = "1", ConcurrencyStamp = "e7636aad-9ff9-45b4-9d7d-e9e55bb6ad63", Name = "CarParkWeb", NormalizedName = "carparkweb" },
-                        new { Id = "2", ConcurrencyStamp = "d1c170d9-d921-4bfd-8a1a-148cd3c7005d", Name = "User", NormalizedName = "user" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -126,11 +118,6 @@ namespace CarPark.Api.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-
-                    b.HasData(
-                        new { Id = 1, ClaimType = "CarParkApp", ClaimValue = "carparkapp", RoleId = "1" },
-                        new { Id = 2, ClaimType = "User", ClaimValue = "user", RoleId = "2" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -182,11 +169,6 @@ namespace CarPark.Api.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new { UserId = "1", RoleId = "1" },
-                        new { UserId = "2", RoleId = "2" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
