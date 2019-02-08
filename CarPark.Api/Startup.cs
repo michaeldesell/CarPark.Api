@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CarPark.Api.Infrastructure.EF_Core.DbContext;
 using Microsoft.EntityFrameworkCore;
-using CarPark.Api.ApplicationCore.Entities;
-using Microsoft.AspNetCore.Identity;
 using CarPark.Api.Infrastructure.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,14 +35,7 @@ namespace CarPark.Api
                     );
                     }
             );
-            services.AddIdentity<User, IdentityRole>(cfg =>
-            {
-                cfg.User.RequireUniqueEmail = true;
-            })
-                .AddEntityFrameworkStores<CarParkDbContext>()
-                .AddDefaultTokenProviders();
-
-
+           
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
