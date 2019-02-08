@@ -10,13 +10,13 @@ namespace CarPark.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AuthsController : ControllerBase
     {
 
 
         private iapplicationservice _applicationservice;
 
-        public ValuesController(iapplicationservice applicationservice)
+        public AuthsController(iapplicationservice applicationservice)
         {
            
             _applicationservice = applicationservice;

@@ -12,7 +12,7 @@ namespace CarPark.Test
     public class UnitTest1
     {
         private static readonly HttpClient _client = new HttpClient();
-        private string apiurl= "http://localhost:58366/api/values";
+        private string apiurl= "http://localhost:58366/api/Auths";
 
         private HttpContent CreateHttpContent<T>(T content)
         {
