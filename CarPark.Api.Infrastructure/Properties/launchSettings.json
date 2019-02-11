@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "CarPark.Api.Infrastructure": {
+      "commandName": "Project"
+    }
+  }
+}

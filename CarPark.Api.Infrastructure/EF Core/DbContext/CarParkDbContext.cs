@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using CarPark.Api.ApplicationCore.Entities;
 
-namespace CarPark.Api.Infrastructure.EF_Core.DbContext
+namespace CarPark.Api.Infrastructure.EF_Core.DBContext
 {
     public class CarParkDbContext : IdentityDbContext<User>
     {
@@ -13,20 +13,14 @@ namespace CarPark.Api.Infrastructure.EF_Core.DbContext
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Carpark> Carparks { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<Parkingspace> Parkingspaces { get; set; }
+        public DbSet<Car> Cars { get; set; }
+     
+
 
     }
-
-  
-
-    //public class CarParkDbContextFactory : IDesignTimeDbContextFactory<CarParkDbContext>
-    //{
-    //    CarParkDbContext IDesignTimeDbContextFactory<CarParkDbContext>.CreateDbContext(string[] args)
-    //    {
-    //        var optionsBuilder = new DbContextOptionsBuilder<CarParkDbContext>();
-    //        optionsBuilder.UseSqlServer<CarParkDbContext>("server=(localdb)\\MSSQLLocalDB;Database=CarParkDb;Integrated Security=true;MultipleActiveResultSets=true");
-
-    //        return new CarParkDbContext(optionsBuilder.Options);
-    //    }
-    //}
+ 
 
 }

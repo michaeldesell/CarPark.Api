@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CarPark.Api.Infrastructure.EF_Core.DbContext;
+using CarPark.Api.Infrastructure.EF_Core.DBContext;
 using Microsoft.EntityFrameworkCore;
 using CarPark.Api.Infrastructure.Services;
 using Microsoft.IdentityModel.Tokens;

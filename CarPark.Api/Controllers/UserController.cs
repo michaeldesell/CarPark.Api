@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using CarPark.Api.Infrastructure.EF_Core.DbContext;
+using CarPark.Api.Infrastructure.EF_Core.DBContext;
 using CarPark.Api.Models;
 
 
