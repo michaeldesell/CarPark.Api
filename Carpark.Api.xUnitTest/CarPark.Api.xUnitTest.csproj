@@ -7,18 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="UnitTest1.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="Moq" Version="4.10.1" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarPark.Api.ApplicationCore\CarPark.Api.ApplicationCore.csproj" />
-    <ProjectReference Include="..\CarPark.Api.Infrastructure\CarPark.Api.Infrastructure.csproj" />
     <ProjectReference Include="..\CarPark.Api\CarPark.Api.csproj" />
   </ItemGroup>
 

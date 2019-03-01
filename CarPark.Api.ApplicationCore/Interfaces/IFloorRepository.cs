@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using CarPark.Api.ApplicationCore.Entities;
 
 namespace CarPark.Api.ApplicationCore.Interfaces
@@ -11,7 +12,8 @@ namespace CarPark.Api.ApplicationCore.Interfaces
         void Add(Floor f);
         void Edit(Floor f);
         void Remove(Floor f);
-        Floor FindById(int id);
-        IEnumerable GetFloorParkingspaces(int id);
+        Floor GetFloor(int floorid);
+        IEnumerable GetFloorsByCarpark(int id);
+        Task<int> SaveAllAsync();
     }
 }

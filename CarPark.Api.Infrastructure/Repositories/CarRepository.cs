@@ -3,22 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CarPark.Api.ApplicationCore.Entities;
 using CarPark.Api.ApplicationCore.Interfaces;
 using CarPark.Api.Infrastructure.EF_Core.DBContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarPark.Api.Infrastructure.Repositories
 {
-    class CarRepository : ICarRepository
+    public class CarRepository : ICarRepository
     {
-        CarParkDbContext _context;
+        CarParkDbContext Context;
         public CarRepository(CarParkDbContext context)
         {
-            _context = context;
+            Context = context;
         }
         public void Add(Car c)
         {
-            var result = _context.Cars.Add(c);
+            var result = Context.Cars.Add(c);
         }
 
         public void Edit(Car c)
@@ -28,21 +30,40 @@ namespace CarPark.Api.Infrastructure.Repositories
 
         public void Remove(Car c)
         {
-            var result = _context.Cars.Remove(c);
+            var result = Context.Cars.Remove(c);
         }
 
-        public Car FindById(int id)
+        public Car GetCar(int carid)
         {
-            var result = _context.Cars
-                .Where(c => c.Id == id).FirstOrDefault();
+            var result = Context.Cars
+                .Where(c => c.Id == carid)
+                .Include(cp => cp.Parkingspace)
+                .Include(cp => cp.Carpark)
+                .FirstOrDefault();
             return result;
         }
 
-        public IEnumerable GetCars()
+        public Car GetCarByParkingSpace(int parkingspaceid)
         {
-            var result = _context.Cars.ToList();
+            var result = Context.Cars.Where(c => c.Parkingspace.Id == parkingspaceid)
+                .Include(cp => cp.Parkingspace)
+                .Include(cp => cp.Carpark)
+                .FirstOrDefault();
             return result;
         }
 
+        public IEnumerable GetCarsByCarpark(int carparkid)
+        {
+            var result = Context.Cars.Where(c => c.Carpark.Id == carparkid)
+                .Include(cp => cp.Parkingspace)
+                .Include(cp => cp.Carpark)
+                .ToList();
+            return result;
+        }
+
+        public Task<int> SaveAllAsync()
+        {
+            return Context.SaveChangesAsync();
+        }
     }
 }

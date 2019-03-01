@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using CarPark.Api.ApplicationCore.Entities;
 
-namespace CarPark.Api.ApplicationCore.Entities
+namespace CarPark.Api.ApplicationCore.Models
 {
-    public class Parkingspace
+
+
+    public class ParkingspaceModel
     {
         public int Id { get; set; }
-        public Floor Floor { get; set; }
+        [Required]
         public string Name { get; set; }
         public Car Car { get; set; }
+        [Required]
         public bool Available { get; set; }
 
-        public Parkingspace(string Name)
-        {
-            this.Name = Name;
-            Available = true;
-        }
     }
 }

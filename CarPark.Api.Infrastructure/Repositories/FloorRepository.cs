@@ -3,26 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CarPark.Api.ApplicationCore.Entities;
 using CarPark.Api.ApplicationCore.Interfaces;
 using CarPark.Api.Infrastructure.EF_Core.DBContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarPark.Api.Infrastructure.Repositories
 {
     public class FloorRepository : IFloorRepository
     {
 
-        CarParkDbContext _context;
+        CarParkDbContext Context;
 
         public FloorRepository(CarParkDbContext context)
         {
-            _context = context;
+            Context = context;
         }
 
         public void Add(Floor f)
         {
 
-            _context.Floors.Add(f);
+            Context.Floors.Add(f);
 
         }
 
@@ -33,22 +35,32 @@ namespace CarPark.Api.Infrastructure.Repositories
 
         public void Remove(Floor f)
         {
-            _context.Floors.Remove(f);
+            Context.Floors.Remove(f);
         }
 
-        public Floor FindById(int id)
+        public Floor GetFloor(int floorid)
         {
-            var result = _context.Floors
-                .Where(f => f.Id == id).FirstOrDefault();
+            var result = Context.Floors
+                .Include(f => f.Carpark)
+                .Include(f => f.Parkingspaces)
+                .Where(f => f.Id == floorid).FirstOrDefault();
             return result;
         }
 
-        public IEnumerable GetFloorParkingspaces(int id)
+        public IEnumerable GetFloorsByCarpark(int carparkid)
         {
-            var result = _context.Floors
-                 .Where(f => f.Id == id)
-                 .Select(f => new { f.Parkingspaces }).ToList();
+            var result = Context.Floors
+                .Include(f => f.Carpark)
+                .Include(f => f.Parkingspaces)
+                .Where(f => f.Carpark.Id == carparkid).ToList();
             return result;
+
+        }
+
+        public Task<int> SaveAllAsync()
+        {
+            return Context.SaveChangesAsync();
+
         }
     }
 }

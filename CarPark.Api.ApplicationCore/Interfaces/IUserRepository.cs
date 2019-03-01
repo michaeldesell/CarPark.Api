@@ -5,15 +5,18 @@ using System.Linq;
 using CarPark.Api.ApplicationCore.Entities;
 using CarPark.Api.ApplicationCore.Interfaces;
 using System.Collections;
+using CarPark.Api.ApplicationCore.Models;
+using System.Threading.Tasks;
 
 namespace CarPark.Api.ApplicationCore.Interfaces
 {
     public interface IUserRepository
     {
-        void Add(User u);
-        void Edit(User u);
-        void Remove(User u);
-        User FindById(int id);
-        IEnumerable GetUsers();
+        void Add(User user);
+        void Edit(UserModel user);
+        void Remove(string id);
+        Task<int> SaveAllAsync();
+        User GetUser(string id);
+        IEnumerable<User> GetUsers();
     }
 }

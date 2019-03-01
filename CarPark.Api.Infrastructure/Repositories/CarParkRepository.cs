@@ -4,23 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CarPark.Api.ApplicationCore.Entities;
+using CarPark.Api.ApplicationCore.Models;
 using CarPark.Api.ApplicationCore.Interfaces;
 using CarPark.Api.Infrastructure.EF_Core.DBContext;
+using AutoMapper;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarPark.Api.Infrastructure.Repositories
 {
-    class CarParkRepository : ICarparkRepository
+    public class CarparkRepository : ICarparkRepository
     {
-        CarParkDbContext _context;
+        public CarParkDbContext Context;
+        public IMapper Mapper;
 
-        public CarParkRepository(CarParkDbContext context)
+        public CarparkRepository(CarParkDbContext context, IMapper mapper)
         {
-            _context = context;
+            Context = context;
+            Mapper = mapper;
         }
 
         public void Add(Carpark cp)
         {
-            _context.Carparks.Add(cp);
+            Context.Carparks.Add(Mapper.Map<Carpark>(cp));
         }
 
         public void Edit(Carpark cp)
@@ -30,42 +36,35 @@ namespace CarPark.Api.Infrastructure.Repositories
 
         public void Remove(Carpark cp)
         {
-            _context.Carparks.Remove(cp);
+            Context.Carparks.Remove(cp);
         }
 
         public IEnumerable GetCarparks()
         {
-            var result = _context.Carparks.ToList();
+            var result = Context.Carparks.Include(cp => cp.User).Include(cp => cp.Cars).ToList();
             return result;
         }
 
-        public Carpark FindById(int id)
+        public Carpark GetCarpark(int carparkid)
         {
-            var result = _context.Carparks
-                 .Where(cp => cp.Id == id).FirstOrDefault();
+            var result = Context.Carparks.Where(cp => cp.Id == carparkid).Include(cp => cp.User).Include(cp => cp.Cars).FirstOrDefault();
+
             return result;
         }
 
-        public Carpark FindActiveByUserId(int userid)
+        public IEnumerable GetCarparksByUser(string userid)
         {
-            var result = _context.Carparks
-                .Where(cp => cp.User.Id == userid && cp.Active).FirstOrDefault();
+            var result = Context.Carparks.Where(cp => cp.User.Id.Equals(userid)).Include(cp => cp.User).Include(cp => cp.Cars).ToList();
             return result;
+
+
         }
 
-        public IEnumerable FindByUserId(int userid)
+        public Task<int> SaveAllAsync()
         {
-            var result = _context.Carparks
-                .Where(cp => cp.User.Id == userid).ToList();
-            return result;
+            return Context.SaveChangesAsync();
+
         }
 
-        public IEnumerable GetCarparkFloors(int id)
-        {
-            var result = _context.Carparks
-                .Where(cp => cp.Id == id)
-                .Select(cp => new { cp.Floors }).ToList();
-            return result;
-        }
     }
 }

@@ -3,45 +3,64 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using CarPark.Api.ApplicationCore.Entities;
+using CarPark.Api.ApplicationCore.Models;
 using CarPark.Api.ApplicationCore.Interfaces;
 using CarPark.Api.Infrastructure.EF_Core.DBContext;
 using System.Collections;
+using AutoMapper;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarPark.Api.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        CarParkDbContext _context;
+        CarParkDbContext Context;
 
-        public UserRepository(CarParkDbContext context)
+        IMapper Mapper;
+
+        public UserRepository(CarParkDbContext context, IMapper mapper)
         {
-            _context = context;
+            Context = context;
+            Mapper = mapper;
         }
 
-        public void Add(User u)
+        public void Add(User user)
         {
-            _context.Users.Add(u);
+            Context.Users.Add(user);
         }
 
-        public void Edit(User u)
+        public void Edit(UserModel user)
         {
-            throw new NotImplementedException();
+
+
         }
 
-        public void Remove(User u)
+        public void Remove(string id)
         {
-            _context.Users.Remove(u);
+            var result = Context.Users.Where(u => u.Id.Equals(id)).FirstOrDefault();
+            Context.Users.Remove(result);
+
         }
-        public User FindById(int id)
+
+        public Task<int> SaveAllAsync()
         {
-            var result = _context.Users
-               .Where(u => u.Id == id).FirstOrDefault();
+            return Context.SaveChangesAsync();
+
+        }
+
+        public User GetUser(string id)
+        {
+            var result = Context.Users
+                .Include(u => u.Carparks)
+                .Where(u => u.Id.Equals(id)).FirstOrDefault();
             return result;
         }
-
-        public IEnumerable GetUsers()
+        public IEnumerable<User> GetUsers()
         {
-            var result = _context.Users.ToList();
+            var result = Context.Users
+                .Include(u => u.Carparks)
+                .ToList();
             return result;
         }
 

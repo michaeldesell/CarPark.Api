@@ -4,14 +4,16 @@ using CarPark.Api.Infrastructure.EF_Core.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarPark.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(CarParkDbContext))]
-    partial class CarParkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190228100716_Update1107")]
+    partial class Update1107
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
