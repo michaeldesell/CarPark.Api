@@ -18,6 +18,8 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Rewrite;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using CarPark.Api.Infrastructure.ServiceCollectionExtensions;
+using CarPark.Api.ApplicationCore.ServiceCollectionExtensions;
 
 namespace CarPark.Api
 {
@@ -44,13 +46,7 @@ namespace CarPark.Api
                 });
 
             //Fetch Connectionstring from config
-            services.AddDbContext<CarParkDbContext>(cfg =>
-            {
-                cfg.UseSqlServer(
-                    Configuration.GetConnectionString("DBConnectionString")
-                    );
-            }
-            , ServiceLifetime.Scoped);
+            services.AddDataAccessServices(Configuration.GetConnectionString("DBConnectionString"));
 
             //Configure Swagger
             services.AddSwaggerGen(c =>
@@ -59,52 +55,15 @@ namespace CarPark.Api
             });
 
             //Configure Automapper mappings
+            services.AddAutoMapperService();
 
-            IMapper Mapper;
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-
-            });
-
-            Mapper = mappingConfig.CreateMapper();
-
-            services.AddSingleton(Mapper);
-
-            //Add repositories for dependency injection
-            services.AddScoped<UserRepository, UserRepository>();
-            services.AddScoped<CarparkRepository, CarparkRepository>();
-            services.AddScoped<FloorRepository, FloorRepository>();
-            services.AddScoped<ParkingspaceRepository, ParkingspaceRepository>();
-            services.AddScoped<CarRepository, CarRepository>();
-            services.AddScoped<UserService, UserService>();
+            //Add repositories and services for dependency injection
+            services.AddRepServDIService();
 
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var key = Encoding.ASCII.GetBytes(Configuration["AppSettings:Secret"]);
-
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-
-
-
-
+            //Add service for JWT
+            services.AddJwtService(Configuration);
 
             services.AddMvc();
 
@@ -123,20 +82,28 @@ namespace CarPark.Api
                 app.UseHsts();
 
             }
+
+            //Add logging
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            //Add SwaggerUI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
                         {
                             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Carpark API V1");
 
                         });
+
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //Redirect to SwaggerUI
             var option = new RewriteOptions();
             option.AddRedirect("^$", "swagger");
             app.UseRewriter(option);
+
             app.UseMvc();
         }
 
