@@ -88,7 +88,7 @@ namespace CarPark.Api.Controllers
                 var result = Carrep.GetCarsByCarpark(carparkid);
                 if (result == null)
                     return NotFound("That carpark doesnt have any cars");
-                return Ok(Mapper.Map<CarparkModel>(result));
+                return Ok(Mapper.Map<IEnumerable<CarModel>>(result));
             }
 
             catch (Exception e)
